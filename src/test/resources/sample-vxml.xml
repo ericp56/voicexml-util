@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vxml xmlns="http://www.w3.org/2001/vxml" version="2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/vxml xsd/vxml.xsd" xmlns:voxeo="http://community.voxeo.com/xmlns/vxml">
+	<property name="inputmodes" value="dtmf" />
+	<script src="./js/functions.js" />
+	<script><![CDATA[
+	function(foo) {
+		return true;
+	}
+	]]></script>
+	<form id="formOne">
+		<var name="appNumber" />
+		<var name="appPrefix" />
+		<block name="greeting">
+			<voxeo:recordcall value="100" infoexpr="getDateString()+'APP'" />
+			<prompt bargein="false">
+				<audio src="/ivrresources/prompts/en-US/greeting.wav">
+				You have reached the voice application services.
+			</audio>
+				<break time="3s" />
+			</prompt>
+		</block>
+		<field name="applicationNumber" type="digits?length=9">
+			<property name="inputmodes" value="dtmf" />
+			<noinput>
+				<reprompt />
+			</noinput>
+			<nomatch>
+				<reprompt />
+			</nomatch>
+			<prompt bargein="true">
+				<audio src="/ivrresources/prompts/en-US/collect_app_number.wav">
+				Please enter the nine-digit numeric portion of the application number.
+			</audio>
+			</prompt>
+			<filled>
+				<assign name="appNumber" expr="applicationNumber" />
+				<assign name="appPrefix" expr="calculatePrefix(applicationNumber)" />
+				<goto nextitem="applicationConfirmation" />
+			</filled>
+		</field>
+
+	</form>
+</vxml>
