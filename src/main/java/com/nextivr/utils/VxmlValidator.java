@@ -1,42 +1,46 @@
 package com.nextivr.utils;
 
-import java.io.Serializable;
-import java.util.List;
-
-import com.nextivr.voicexml21.Field;
-import com.nextivr.voicexml21.Form;
-import com.nextivr.voicexml21.Vxml;
-import com.nextivr.voicexml21.VxmlSpeak;
-
 public class VxmlValidator {
 
-    private Vxml vxml;
+    private XmlValidator xval;
 
-    public VxmlValidator(Vxml vxml) {
-        this.vxml = vxml;
+    /**
+     * 
+     * @param vxmlString the document to evaluate
+     */
+    public VxmlValidator(String vxmlString) {
+        XmlValidator xv = new XmlValidator(vxmlString);
+        this.xval = xv;
     }
 
-    public VxmlValidator hasPromptWithText(String text) throws Exception {
-        for (Object obj1 : vxml.getDataOrCatchOrHelp()) {
-            if (obj1 instanceof Form) {
-                Form form = (Form) obj1;
-                for (Object obj2 : form.getCatchOrHelpOrNoinput()) {
-                    if (obj2 instanceof Field) {
-                        Field field = (Field) obj2;
-                        for (Object obj3 : field.getContent()) {
-                            if (obj3 instanceof VxmlSpeak) {
-                                VxmlSpeak prompt = (VxmlSpeak) obj3;
-                                List<Serializable> list1 = prompt.getContent();
-                                while (list1.iterator().hasNext()) {
-                                    Serializable s = list1.iterator().next();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    /**
+     * 
+     * @param element element to look for e.g. "prompt" or "grammar"
+     * @param text that should be contained e.g. "This is the main menu" or "operator"
+     * @return this VxmlValidator, so you can chain together the validations.
+     * @throws Exception if there is no element with the text
+     */
+    public VxmlValidator xpElementContainsText(String element, String text) throws Exception {
+        String ret = xval.findXPath("//*[name()='" + element + "']//text()[contains(., '" + text + "')]");
+        if (ret.length() == 0) {
+            throw new Exception(element + " text not found: " + text);
         }
+        return this;
+    }
 
+    /**
+     * 
+     * @param element element to look for e.g. "audio"
+     * @param attribute attribute to look for e.g. "src"
+     * @param text that should be contained e.g. "please_hold.wav"
+     * @return this VxmlValidator, so you can chain together the validations.
+     * @throws Exception if there is no element with the text
+     */
+    public VxmlValidator xpElementAttrContainsText(String element, String attribute, String text) throws Exception {
+        String ret = xval.findXPath("//*[name()='" + element + "' and contains(@" + attribute + ", '" + text + "')]");
+        if (ret.length() == 0) {
+            throw new Exception(element + "@" + attribute + " text not found: " + text);
+        }
         return this;
     }
 

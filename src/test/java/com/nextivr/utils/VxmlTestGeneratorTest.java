@@ -31,9 +31,6 @@ public class VxmlTestGeneratorTest extends TestCase {
                 "", "5000ms", "1500ms"));
         Vxml v = tg.generateVxml(vxmlTest);
 
-        VxmlValidator val = new VxmlValidator(v);
-        val.hasPromptWithText("one");
-
         JAXBContext context = JAXBContext.newInstance(Vxml.class);
         StringWriter writer = new StringWriter();
         Marshaller m = context.createMarshaller();

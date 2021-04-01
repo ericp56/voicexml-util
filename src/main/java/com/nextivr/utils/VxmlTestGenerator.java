@@ -37,7 +37,8 @@ public class VxmlTestGenerator {
     /**
      * Generate the vxml document using the list of steps.
      * 
-     * @param test
+     * @param test A Test object which contains the test steps, as well as other
+     *             properties.
      * @return
      */
     public Vxml generateVxml(Test test) {
@@ -76,23 +77,23 @@ public class VxmlTestGenerator {
                 rule.setScope(ScopeDatatype.PRIVATE);
                 List<Serializable> ruleList = rule.getContent();
                 String listenFor[] = listItem.getListenForVoice().replaceAll("[^a-zA-Z 0-9{}:*]", " ").split("\\{|\\}");
-                for(int k = 0; k < listenFor.length; k++) {
+                for (int k = 0; k < listenFor.length; k++) {
                     String listenForSegment = listenFor[k];
-                    if(listenForSegment.equals("*")){
+                    if (listenForSegment.equals("*")) {
                         Ruleref ruleRef = of.createRuleref();
                         ruleRef.setSpecial(SpecialDatatype.GARBAGE);
-                        JAXBElement<Ruleref> ruleRefElement = new JAXBElement<>(new QName("http://www.w3.org/2001/vxml", "ruleref"),
-                        Ruleref.class, null, ruleRef);
-                        ruleList.add(ruleRefElement);        
+                        JAXBElement<Ruleref> ruleRefElement = new JAXBElement<>(
+                                new QName("http://www.w3.org/2001/vxml", "ruleref"), Ruleref.class, null, ruleRef);
+                        ruleList.add(ruleRefElement);
                     } else {
                         Item speechItem = of.createItem();
                         speechItem.getContent().add(listenForSegment);
-                        JAXBElement<Item> speechItemElement = new JAXBElement<>(new QName("http://www.w3.org/2001/vxml", "item"),
-                        Item.class, null, speechItem);
+                        JAXBElement<Item> speechItemElement = new JAXBElement<>(
+                                new QName("http://www.w3.org/2001/vxml", "item"), Item.class, null, speechItem);
                         ruleList.add(speechItemElement);
                     }
                 }
-                
+
                 gr.getRule().add(rule);
                 gr.setRoot(rule);
                 field.getContent().add(gr);
