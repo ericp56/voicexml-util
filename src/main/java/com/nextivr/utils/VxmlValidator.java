@@ -1,16 +1,10 @@
 package com.nextivr.utils;
 
-public class VxmlValidator {
+public class VxmlValidator extends XmlValidator{
 
-    private XmlValidator xval;
-
-    /**
-     * 
-     * @param vxmlString the document to evaluate
-     */
-    public VxmlValidator(String vxmlString) {
-        XmlValidator xv = new XmlValidator(vxmlString);
-        this.xval = xv;
+    public VxmlValidator(String xmlString) {
+        super(xmlString);
+        this.addXpathNamespace("vxml", "http://www.w3.org/2001/vxml");
     }
 
     /**
@@ -21,7 +15,7 @@ public class VxmlValidator {
      * @throws Exception if there is no element with the text
      */
     public VxmlValidator xpElementContainsText(String element, String text) throws Exception {
-        String ret = xval.findXPath("//*[name()='" + element + "']//text()[contains(., '" + text + "')]");
+        String ret = findXPath("//" + element + "//text()[contains(., '" + text + "')]");
         if (ret.length() == 0) {
             throw new Exception(element + " text not found: " + text);
         }
@@ -37,11 +31,25 @@ public class VxmlValidator {
      * @throws Exception if there is no element with the text
      */
     public VxmlValidator xpElementAttrContainsText(String element, String attribute, String text) throws Exception {
-        String ret = xval.findXPath("//*[name()='" + element + "' and contains(@" + attribute + ", '" + text + "')]");
+        String ret = findXPath("//" + element + "[contains(@" + attribute + ", '" + text + "')]");
         if (ret.length() == 0) {
             throw new Exception(element + "@" + attribute + " text not found: " + text);
         }
         return this;
     }
+ 
+    public String getDefaultSubmitUrl() throws Exception {
+        String ret = findXPath("/vxml:vxml/vxml:form/vxml:block/vxml:submit/@next");
+        return ret;
+    }
+
+    public VxmlValidator xpVerifyElementCount(String element,int count) throws Exception {
+        String ret = findXPath("count(//" + element + ")");
+        if (!ret.equals(String.valueOf(count))) {
+            throw new Exception(element + " count expected " + count + " actual " + ret);
+        }
+        return this;
+    }
+
 
 }

@@ -1,6 +1,8 @@
 package com.nextivr.utils;
 
 import java.io.StringReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
@@ -12,6 +14,7 @@ public class XmlValidator {
 
     private String xmlString;
     private XPath xpathObj = XPathFactory.newInstance().newXPath();
+    private Map<String, String> prefMap = new HashMap<>();
 
     /**
      * 
@@ -29,7 +32,17 @@ public class XmlValidator {
      */
     public String findXPath(String xpath) throws XPathExpressionException {
         InputSource xml = new InputSource(new StringReader(xmlString));
+
+        SimpleNamespaceContext namespaces = new SimpleNamespaceContext(prefMap);
+        xpathObj.setNamespaceContext(namespaces);
+
         return xpathObj.evaluate(xpath, xml);
     }
+
+    public void addXpathNamespace(String prefix, String uri) {
+        prefMap.put(prefix, uri);
+
+    }
+
 
 }
