@@ -22,8 +22,8 @@ public class AodBrowser extends VxmlBrowser {
     }
 
     public HttpResponse initApp(String hostname, String port, String appName, String querystring) throws Exception {
-        urlBase = String.format("http://%s:%s/%s/", hostname, port);
-        HttpResponse fetchDocument = startApp(String.format("%s%s?%s", urlBase, appName, querystring));
+        urlBase = String.format("http://%s:%s/%s/", hostname, port, appName);
+        HttpResponse fetchDocument = startApp(String.format("%sStart?%s", urlBase, querystring));
         return fetchDocument;
     }
 
@@ -36,8 +36,8 @@ public class AodBrowser extends VxmlBrowser {
         return validator;
     }
 
-    public VxmlValidator chooseMenuOption(VxmlValidator validator, String value, String interpretation,
-            String inputMode) throws Exception {
+    public VxmlValidator chooseMenuOption(VxmlValidator validator, int optionNumber, String value,
+            String interpretation, String inputMode) throws Exception {
         String menuName = validator.findXPath("/vxml:vxml/vxml:menu/@id");
 
         addField(menuName + "___Column0", interpretation);
@@ -49,8 +49,9 @@ public class AodBrowser extends VxmlBrowser {
         addField(menuName + "___noinputcount", "0");
         addField(menuName + "___nomatchcount", "0");
 
-        String next = validator.findXPath("/vxml:vxml/vxml:form[@id='choice0']/vxml:block/vxml:assign/@expr")
-                .replaceAll("'", "");
+        String xpath = String.format("/vxml:vxml/vxml:form[@id='choice%s']/vxml:block/vxml:assign/@expr",
+                optionNumber - 1);
+        String next = validator.findXPath(xpath).replaceAll("'", "");
 
         validator = getNextValidator(next);
         return validator;
@@ -61,6 +62,18 @@ public class AodBrowser extends VxmlBrowser {
         fetchDocument = getNextPage(urlBase + next);
         String vxmlString = fetchDocument.getMessage();
         validator = new VxmlValidator(vxmlString);
+        return validator;
+    }
+
+    public VxmlValidator error(VxmlValidator validator) throws Exception {
+        String next = validator.findXPath("/vxml:vxml/vxml:catch[@event='error']/vxml:goto/@next");
+        validator = getNextValidator(next);
+        return validator;
+    }
+
+    public VxmlValidator getDefaultNext(VxmlValidator validator) throws Exception {
+        String next = validator.getDefaultSubmitUrl();
+        validator = getNextValidator(next);
         return validator;
     }
 
@@ -81,11 +94,4 @@ public class AodBrowser extends VxmlBrowser {
         validator = getNextValidator(next);
         return validator;
     }
-
-    public VxmlValidator getDefaultNext(VxmlValidator validator) throws Exception {
-        String next = validator.getDefaultSubmitUrl();
-        validator = getNextValidator(next);
-        return validator;
-    }
-
 }
