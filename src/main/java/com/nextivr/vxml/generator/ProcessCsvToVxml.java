@@ -5,10 +5,8 @@ import java.io.FileWriter;
 import java.io.Reader;
 import java.util.List;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-
-import com.nextivr.voicexml21.Vxml;
+import com.nextivr.vxml.Vxml21Marshaller;
+import com.nextivr.vxml.voicexml21.Vxml;
 
 /**
  * This is the main app that will generate a VXML test case, based on the CSV
@@ -35,11 +33,9 @@ public class ProcessCsvToVxml {
         Vxml newVxml = generator.generateVxml(test);
 
         FileWriter writer = new FileWriter(outFileName);
-        JAXBContext context = JAXBContext.newInstance(Vxml.class);
-        Marshaller m = context.createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        m.marshal(newVxml, writer);
-        writer.close();
+        Vxml21Marshaller vxmlConverter = new Vxml21Marshaller();
+        vxmlConverter.toStream(newVxml, writer);
+
     }
 
 }

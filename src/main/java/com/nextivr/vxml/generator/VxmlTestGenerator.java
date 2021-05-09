@@ -7,25 +7,25 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
-import com.nextivr.voicexml21.Audio;
-import com.nextivr.voicexml21.Block;
-import com.nextivr.voicexml21.Catch;
-import com.nextivr.voicexml21.Field;
-import com.nextivr.voicexml21.Filled;
-import com.nextivr.voicexml21.Form;
-import com.nextivr.voicexml21.Goto;
-import com.nextivr.voicexml21.Grammar;
-import com.nextivr.voicexml21.Item;
-import com.nextivr.voicexml21.Log;
-import com.nextivr.voicexml21.ModeDatatype;
-import com.nextivr.voicexml21.ObjectFactory;
-import com.nextivr.voicexml21.Property;
-import com.nextivr.voicexml21.Rule;
-import com.nextivr.voicexml21.Ruleref;
-import com.nextivr.voicexml21.ScopeDatatype;
-import com.nextivr.voicexml21.SpecialDatatype;
-import com.nextivr.voicexml21.Vxml;
-import com.nextivr.voicexml21.VxmlSpeak;
+import com.nextivr.vxml.voicexml21.Audio;
+import com.nextivr.vxml.voicexml21.Block;
+import com.nextivr.vxml.voicexml21.Catch;
+import com.nextivr.vxml.voicexml21.Field;
+import com.nextivr.vxml.voicexml21.Filled;
+import com.nextivr.vxml.voicexml21.Form;
+import com.nextivr.vxml.voicexml21.Goto;
+import com.nextivr.vxml.voicexml21.Grammar;
+import com.nextivr.vxml.voicexml21.Item;
+import com.nextivr.vxml.voicexml21.Log;
+import com.nextivr.vxml.voicexml21.ModeDatatype;
+import com.nextivr.vxml.voicexml21.ObjectFactory;
+import com.nextivr.vxml.voicexml21.Property;
+import com.nextivr.vxml.voicexml21.Rule;
+import com.nextivr.vxml.voicexml21.Ruleref;
+import com.nextivr.vxml.voicexml21.ScopeDatatype;
+import com.nextivr.vxml.voicexml21.SpecialDatatype;
+import com.nextivr.vxml.voicexml21.Vxml;
+import com.nextivr.vxml.voicexml21.VxmlSpeak;
 
 /**
  * With this utility, you can generate a vxml testing document.

@@ -1,5 +1,10 @@
 package com.nextivr.vxml.browser;
-import java.util.Arrays;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.http.Header;
 import org.apache.http.StatusLine;
@@ -10,37 +15,61 @@ import org.apache.http.StatusLine;
 public class HttpResponse {
 
     String message;
-    Header[] headers;
     StatusLine statusLine;
+    Map<String, Header> headerMap = new HashMap<>();
 
-    @Override
-    public String toString() {
-        return "HttpResponse [headers=" + Arrays.toString(headers) + ", message=" + message + ", statusLine="
-                + statusLine + "]";
+    private void processHeaders(Header[] headers) {
+        headerMap.clear();
+        if (null == headers) {
+            return;
+        }
+        for (int i = 0; i < headers.length; i++) {
+            headerMap.put(headers[i].getName(), headers[i]);
+        }
+
     }
+
     public HttpResponse(String message, Header[] headers, StatusLine statusLine) {
         this.message = message;
-        this.headers = headers;
+        processHeaders(headers);
         this.statusLine = statusLine;
     }
+
     public String getMessage() {
         return message;
     }
+
     public void setMessage(String message) {
         this.message = message;
     }
+
     public Header[] getHeaders() {
-        return headers;
+        List<Header> headers = new ArrayList<>();
+        Iterator<Header> iter = headerMap.values().iterator();
+        while (iter.hasNext()) {
+            headers.add(iter.next());
+        }
+        return headers.toArray(new Header[headers.size()]);
     }
+
     public void setHeaders(Header[] headers) {
-        this.headers = headers;
+        processHeaders(headers);
     }
+
     public StatusLine getStatusLine() {
         return statusLine;
     }
+
     public void setStatusLine(StatusLine statusLine) {
         this.statusLine = statusLine;
     }
-    
-    
+
+    public String getHeaderValue(String key) {
+        if(headerMap.containsKey(key)) {
+            return headerMap.get(key).getValue();
+        } else {
+            return "";
+        }
+    }
+
 }
