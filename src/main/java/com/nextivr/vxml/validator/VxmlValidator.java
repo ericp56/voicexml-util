@@ -1,4 +1,4 @@
-package com.nextivr.utils;
+package com.nextivr.vxml.validator;
 
 public class VxmlValidator extends XmlValidator{
 

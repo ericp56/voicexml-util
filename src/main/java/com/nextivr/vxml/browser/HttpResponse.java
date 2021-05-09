@@ -1,4 +1,4 @@
-package com.nextivr.model;
+package com.nextivr.vxml.browser;
 import java.util.Arrays;
 
 import org.apache.http.Header;

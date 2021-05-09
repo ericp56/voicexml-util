@@ -1,5 +1,7 @@
 package com.nextivr.utils;
 
+import com.nextivr.vxml.validator.VxmlValidator;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

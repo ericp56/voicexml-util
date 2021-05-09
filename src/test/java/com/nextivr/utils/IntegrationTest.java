@@ -1,7 +1,7 @@
 package com.nextivr.utils;
 
-import com.nextivr.browser.VxmlBrowser;
-import com.nextivr.model.HttpResponse;
+import com.nextivr.vxml.browser.HttpResponse;
+import com.nextivr.vxml.browser.VxmlBrowser;
 
 import org.apache.http.HttpStatus;
 

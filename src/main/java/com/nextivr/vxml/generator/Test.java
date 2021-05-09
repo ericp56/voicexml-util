@@ -1,4 +1,4 @@
-package com.nextivr.model;
+package com.nextivr.vxml.generator;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.nextivr.utils;
+package com.nextivr.vxml.validator;
 
 import java.io.StringReader;
 import java.util.HashMap;

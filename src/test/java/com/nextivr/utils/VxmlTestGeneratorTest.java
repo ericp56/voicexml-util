@@ -5,8 +5,9 @@ import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
-import com.nextivr.model.Step;
 import com.nextivr.voicexml21.Vxml;
+import com.nextivr.vxml.generator.Step;
+import com.nextivr.vxml.generator.VxmlTestGenerator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -23,7 +24,7 @@ public class VxmlTestGeneratorTest extends TestCase {
 
     public void testSimpleTest() throws Exception {
         VxmlTestGenerator tg = new VxmlTestGenerator();
-        com.nextivr.model.Test vxmlTest = new com.nextivr.model.Test();
+        com.nextivr.vxml.generator.Test vxmlTest = new com.nextivr.vxml.generator.Test();
         vxmlTest.addStep(new Step("greeting", "lang", "Hello, {*} thank you for calling.", "", "", "5000ms", "1500ms"));
         vxmlTest.addStep(
                 new Step("lang", "mainmenu", "Press 1 for English, 2 for Spanish", "", "one", "5000ms", "1500ms"));

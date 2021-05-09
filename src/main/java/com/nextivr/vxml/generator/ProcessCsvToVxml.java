@@ -1,4 +1,4 @@
-package com.nextivr;
+package com.nextivr.vxml.generator;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -8,10 +8,6 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
-import com.nextivr.model.Step;
-import com.nextivr.model.Test;
-import com.nextivr.utils.ImportCsv;
-import com.nextivr.utils.VxmlTestGenerator;
 import com.nextivr.voicexml21.Vxml;
 
 /**

@@ -1,4 +1,4 @@
-package com.nextivr.utils;
+package com.nextivr.vxml.generator;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -7,8 +7,6 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
-import com.nextivr.model.Step;
-import com.nextivr.model.Test;
 import com.nextivr.voicexml21.Audio;
 import com.nextivr.voicexml21.Block;
 import com.nextivr.voicexml21.Catch;

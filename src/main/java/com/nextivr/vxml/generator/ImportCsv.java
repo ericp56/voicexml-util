@@ -1,10 +1,8 @@
-package com.nextivr.utils;
+package com.nextivr.vxml.generator;
 
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.nextivr.model.Step;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;

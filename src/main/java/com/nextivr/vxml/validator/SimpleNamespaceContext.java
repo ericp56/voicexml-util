@@ -1,8 +1,9 @@
-package com.nextivr.utils;
+package com.nextivr.vxml.validator;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import javax.xml.namespace.NamespaceContext;
 
 public class SimpleNamespaceContext implements NamespaceContext {
@@ -21,7 +22,7 @@ public class SimpleNamespaceContext implements NamespaceContext {
         throw new UnsupportedOperationException();
     }
 
-    public Iterator getPrefixes(String uri) {
+    public Iterator<String> getPrefixes(String uri) {
         throw new UnsupportedOperationException();
     }
 

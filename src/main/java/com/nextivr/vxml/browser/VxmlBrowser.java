@@ -1,10 +1,8 @@
-package com.nextivr.browser;
+package com.nextivr.vxml.browser;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.nextivr.model.HttpResponse;
 
 import org.apache.http.Consts;
 import org.apache.http.Header;

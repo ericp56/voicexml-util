@@ -1,7 +1,6 @@
-package com.nextivr.browser;
+package com.nextivr.vxml.browser;
 
-import com.nextivr.model.HttpResponse;
-import com.nextivr.utils.VxmlValidator;
+import com.nextivr.vxml.validator.VxmlValidator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -34,15 +33,13 @@ import junit.framework.TestSuite;
      * Rigourous Test :-)
      */
     public void testSimpleGet() throws Exception {
-        //TODO: move setting ani, dnis into aodbrowser
-        //TODO: move Start into "start" method
-        //TODO: move "getNextPage" logic into method
-        //TODO: move "menuoption" logic into method
         AodBrowser browser = new AodBrowser();
         String urlBase = "http://localhost:8080/Weatherline2/";
         HttpResponse fetchDocument = browser.startApp(urlBase + "Start");
+
         VxmlValidator validator = new VxmlValidator(fetchDocument.getMessage());
         String next = validator.getDefaultSubmitUrl();
+
         browser.addField(AodInitialSettings.session___ani.toString(), "919411234");
         
         fetchDocument = browser.getNextPage(urlBase + next);

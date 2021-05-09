@@ -1,4 +1,4 @@
-package com.nextivr.model;
+package com.nextivr.vxml.generator;
 
 /**
  * This is a single step of the test
