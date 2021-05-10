@@ -10,7 +10,7 @@ import org.apache.http.Header;
 import org.apache.http.StatusLine;
 
 /**
- * A simple class to hold just what we need returned from an HTTP command.
+ * A simple class to hold just what we need from the result of an HTTP request.
  */
 public class HttpResponse {
 
@@ -18,6 +18,9 @@ public class HttpResponse {
     StatusLine statusLine;
     Map<String, Header> headerMap = new HashMap<>();
 
+    /**
+     * Copy the headers array into a map, so we can access them more easily.
+     */
     private void processHeaders(Header[] headers) {
         headerMap.clear();
         if (null == headers) {
@@ -64,8 +67,13 @@ public class HttpResponse {
         this.statusLine = statusLine;
     }
 
+    /**
+     * get the value of the header key
+     * @param key
+     * @return empty string if the key is not found
+     */
     public String getHeaderValue(String key) {
-        if(headerMap.containsKey(key)) {
+        if (headerMap.containsKey(key)) {
             return headerMap.get(key).getValue();
         } else {
             return "";

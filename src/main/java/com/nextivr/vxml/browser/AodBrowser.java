@@ -2,6 +2,9 @@ package com.nextivr.vxml.browser;
 
 import com.nextivr.vxml.validator.VxmlValidator;
 
+/**
+ * Extension of the {@link VxmlBrowser} for Avaya OD applications.
+ */
 public class AodBrowser extends VxmlBrowser {
 
     private HttpResponse fetchDocument;
@@ -21,12 +24,28 @@ public class AodBrowser extends VxmlBrowser {
         return fetchDocument;
     }
 
+    /**
+     * Run this first, to start the AOD session
+     * @param hostname
+     * @param port
+     * @param appName
+     * @param querystring
+     * @return
+     * @throws Exception
+     */
     public HttpResponse initApp(String hostname, String port, String appName, String querystring) throws Exception {
         urlBase = String.format("http://%s:%s/%s/", hostname, port, appName);
         HttpResponse fetchDocument = startApp(String.format("%sStart?%s", urlBase, querystring));
         return fetchDocument;
     }
 
+    /**
+     * Run this second, to start the app.
+     * @param ani
+     * @param dnis
+     * @return
+     * @throws Exception
+     */
     public VxmlValidator start(String ani, String dnis) throws Exception {
         VxmlValidator validator = new VxmlValidator(fetchDocument.getMessage());
         String next = validator.getDefaultSubmitUrl();
@@ -36,13 +55,23 @@ public class AodBrowser extends VxmlBrowser {
         return validator;
     }
 
+    /**
+     * 
+     * @param validator the {@link VxmlValidator} from the previous step
+     * @param optionNumber this position of the menu option 
+     * @param value value of the grammar item selected for the menu option e.g. 2
+     * @param interpretation the raw value of the menu option e.g. billing, two, 2, etc.
+     * @param inputMode dtmf or voice
+     * @return
+     * @throws Exception
+     */
     public VxmlValidator chooseMenuOption(VxmlValidator validator, int optionNumber, String value,
             String interpretation, String inputMode) throws Exception {
         String menuName = validator.findXPath("/vxml:vxml/vxml:menu/@id");
 
-        addField(menuName + "___Column0", interpretation);
-        addField(menuName + "___utterance", value);
-        addField(menuName + "___interpretation", interpretation);
+        addField(menuName + "___Column0", value);
+        addField(menuName + "___utterance", interpretation);
+        addField(menuName + "___interpretation", value);
         addField(menuName + "___value", value);
         addField(menuName + "___inputmode", inputMode);
         addField(menuName + "___confidence", "1");
@@ -57,6 +86,12 @@ public class AodBrowser extends VxmlBrowser {
         return validator;
     }
 
+    /**
+     * Load the next page
+     * @param next the servlet to load 
+     * @return {@link VxmlValidator} 
+     * @throws Exception
+     */
     private VxmlValidator getNextValidator(String next) throws Exception {
         VxmlValidator validator;
         fetchDocument = getNextPage(urlBase + next);
@@ -65,18 +100,39 @@ public class AodBrowser extends VxmlBrowser {
         return validator;
     }
 
+    /**
+     * load the next page based on the /vxml/catch[@event='error']/goto/@next
+     * @param validator
+     * @return
+     * @throws Exception
+     */
     public VxmlValidator error(VxmlValidator validator) throws Exception {
         String next = validator.findXPath("/vxml:vxml/vxml:catch[@event='error']/vxml:goto/@next");
         validator = getNextValidator(next);
         return validator;
     }
 
+    /**
+     * get the next servlet via the {@link VxmlValidator}.getDefaultSubmitUrl()
+     * @param validator
+     * @return
+     * @throws Exception
+     */
     public VxmlValidator getDefaultNext(VxmlValidator validator) throws Exception {
         String next = validator.getDefaultSubmitUrl();
         validator = getNextValidator(next);
         return validator;
     }
 
+    /**
+     * 
+     * @param validator the {@link VxmlValidator} from the previous step
+     * @param value value of the grammar item entered e.g. 2
+     * @param interpretation the raw value of item entered e.g. two
+     * @param inputMode dtmf or voice
+     * @return
+     * @throws Exception
+     */
     public VxmlValidator choosePromptCollect(VxmlValidator validator, String value, String interpretation,
             String inputMode) throws Exception {
         String formName = validator.findXPath("/vxml:vxml/vxml:form/@id");

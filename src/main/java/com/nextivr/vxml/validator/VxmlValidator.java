@@ -38,6 +38,11 @@ public class VxmlValidator extends XmlValidator{
         return this;
     }
  
+    /**
+     * get the xpath /vxml/form/block/submit/@next
+     * @return
+     * @throws Exception
+     */
     public String getDefaultSubmitUrl() throws Exception {
         String ret = findXPath("/vxml:vxml/vxml:form/vxml:block/vxml:submit/@next");
         return ret;

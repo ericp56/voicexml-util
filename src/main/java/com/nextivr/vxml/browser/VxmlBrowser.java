@@ -17,9 +17,14 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
+/**
+ * This class has an internal HTTP client that performs HTTP GET and POST
+ * methods, and returns the results in an {@link HttpResponse} object.
+ */
 public class VxmlBrowser {
     CloseableHttpClient httpclient;
-    List <NameValuePair> postFields = new ArrayList <NameValuePair>();
+    List<NameValuePair> postFields = new ArrayList<NameValuePair>();
+
     public VxmlBrowser() {
         httpclient = HttpClients.createDefault();
     }
@@ -43,15 +48,22 @@ public class VxmlBrowser {
             ret = new HttpResponse(message, headers, statusLine);
         }
 
-    return ret;
+        return ret;
     }
 
+    /**
+     * post to the urlString the fields added via the addField method
+     * 
+     * @param urlString
+     * @return
+     * @throws Exception
+     */
     public HttpResponse postDocument(String urlString) throws Exception {
         HttpResponse ret;
 
         HttpPost postRequest = new HttpPost(urlString);
         postRequest.setEntity(new UrlEncodedFormEntity(postFields, Consts.UTF_8));
-        try (CloseableHttpResponse response1 =httpclient.execute(postRequest)) {
+        try (CloseableHttpResponse response1 = httpclient.execute(postRequest)) {
             HttpEntity entity1 = response1.getEntity();
             String message = new String(entity1.getContent().readAllBytes());
             Header[] headers = response1.getAllHeaders();
@@ -60,17 +72,26 @@ public class VxmlBrowser {
             postFields.clear();
         }
 
-    return ret;
+        return ret;
     }
 
+    /**
+     * add a field for the next post
+     * 
+     * @param name
+     * @param value
+     */
     public void addField(String name, String value) {
         postFields.add(new BasicNameValuePair(name, value));
     }
 
+    /**
+     * clean up the {@link CloseableHttpClient}
+     */
     protected void finalize() {
         try {
             httpclient.close();
-        } catch(IOException ex) {
+        } catch (IOException ex) {
 
         }
     }
