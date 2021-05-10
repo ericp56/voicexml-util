@@ -39,6 +39,11 @@ public class XmlValidator {
         return xpathObj.evaluate(xpath, xml);
     }
 
+    /**
+     * use this method to add namespace contexts before calling {@link findXPath}
+     * @param prefix
+     * @param uri
+     */
     public void addXpathNamespace(String prefix, String uri) {
         prefMap.put(prefix, uri);
 

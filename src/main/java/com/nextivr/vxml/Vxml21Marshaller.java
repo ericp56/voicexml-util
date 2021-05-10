@@ -12,6 +12,12 @@ import javax.xml.bind.Unmarshaller;
 import com.nextivr.vxml.voicexml21.Vxml;
 
 public class Vxml21Marshaller {
+    /**
+     * Load the vxmlstring parameter into a {@link Vxml} object
+     * @param vxmlString
+     * @return a new {@link Vxml} object
+     * @throws Exception
+     */
     public Vxml fromString(String vxmlString) throws Exception {
         JAXBContext context = JAXBContext.newInstance(Vxml.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -24,6 +30,13 @@ public class Vxml21Marshaller {
         return doc;
 
     }
+
+    /**
+     * Write the {@link Vxml} document to an {@link OutputStreamWriter}
+     * @param newVxml
+     * @param writer
+     * @throws Exception
+     */
     public void toStream(Vxml newVxml, OutputStreamWriter writer) throws Exception{
         JAXBContext context = JAXBContext.newInstance(Vxml.class);
         Marshaller m = context.createMarshaller();

@@ -1,6 +1,6 @@
 package com.nextivr.vxml.validator;
 
-public class VxmlValidator extends XmlValidator{
+public class VxmlValidator extends XmlValidator {
 
     public VxmlValidator(String xmlString) {
         super(xmlString);
@@ -10,7 +10,8 @@ public class VxmlValidator extends XmlValidator{
     /**
      * 
      * @param element element to look for e.g. "prompt" or "grammar"
-     * @param text that should be contained e.g. "This is the main menu" or "operator"
+     * @param text    that should be contained e.g. "This is the main menu" or
+     *                "operator"
      * @return this VxmlValidator, so you can chain together the validations.
      * @throws Exception if there is no element with the text
      */
@@ -24,9 +25,9 @@ public class VxmlValidator extends XmlValidator{
 
     /**
      * 
-     * @param element element to look for e.g. "audio"
+     * @param element   element to look for e.g. "audio"
      * @param attribute attribute to look for e.g. "src"
-     * @param text that should be contained e.g. "please_hold.wav"
+     * @param text      that should be contained e.g. "please_hold.wav"
      * @return this VxmlValidator, so you can chain together the validations.
      * @throws Exception if there is no element with the text
      */
@@ -37,9 +38,10 @@ public class VxmlValidator extends XmlValidator{
         }
         return this;
     }
- 
+
     /**
      * get the xpath /vxml/form/block/submit/@next
+     * 
      * @return
      * @throws Exception
      */
@@ -48,13 +50,19 @@ public class VxmlValidator extends XmlValidator{
         return ret;
     }
 
-    public VxmlValidator xpVerifyElementCount(String element,int count) throws Exception {
+    /**
+     * Get the count of a specific xml element in the document.
+     * 
+     * @param element
+     * @param count
+     * @return
+     * @throws Exception
+     */
+    public VxmlValidator xpVerifyElementCount(String element, int count) throws Exception {
         String ret = findXPath("count(//" + element + ")");
         if (!ret.equals(String.valueOf(count))) {
             throw new Exception(element + " count expected " + count + " actual " + ret);
         }
         return this;
     }
-
-
 }

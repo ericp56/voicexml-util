@@ -6,6 +6,9 @@ import java.util.Map;
 
 import javax.xml.namespace.NamespaceContext;
 
+/**
+ * Used by the {@link VxmlValidator} for xpath queries
+ */
 public class SimpleNamespaceContext implements NamespaceContext {
 
     private final Map<String, String> PREF_MAP = new HashMap<String, String>();
