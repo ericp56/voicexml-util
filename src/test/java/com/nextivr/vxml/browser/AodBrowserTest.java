@@ -29,7 +29,40 @@ import junit.framework.TestSuite;
         return new TestSuite(AodBrowserTest.class);
     }
 
-    public void testSimpleGet() throws Exception {
+    public void testBrowserAndValidator() throws Exception {
+        AodBrowser browser = new AodBrowser();
+        
+        HttpResponse fetchDocument = browser.initApp("localhost", "8080", "Weatherline2", "");
+
+        VxmlValidator validator = new VxmlValidator(fetchDocument.getMessage());
+
+        validator = browser.start("919411234", "1234")
+        .xpElementContainsText(VXML_AUDIO, "To test the rest API, press 1.")
+        .xpElementAttrContainsText(VXML_AUDIO, SRC, "MainMenu.wav")
+        .xpVerifyElementCount(VXML_AUDIO, 1);
+
+        validator = browser.chooseMenuOption(validator, 1, "1", "1", "dtmf")
+        .xpElementContainsText(VXML_AUDIO, "Please enter your zip code.")
+        .xpElementAttrContainsText(VXML_AUDIO, SRC, "EnterZip.wav")
+        .xpVerifyElementCount(VXML_AUDIO, 2);
+
+        validator = browser.choosePromptCollect(validator, "12345", "12345", "dtmf")
+        .xpElementContainsText(VXML_AUDIO, "Your forecast")
+        .xpElementAttrContainsText(VXML_AUDIO, SRC, "Forecast2.wav")
+        .xpVerifyElementCount(VXML_AUDIO, 3);
+
+
+        validator = browser.getDefaultNext(validator)
+        .xpElementContainsText(VXML_AUDIO, "To test the rest API, press 1.")
+        .xpElementAttrContainsText(VXML_AUDIO, SRC, "MainMenu.wav")
+        .xpVerifyElementCount(VXML_AUDIO, 1);
+
+        validator = browser.error(validator)
+        .xpVerifyElementCount("vxml:form[@id='end']", 1);
+
+    }
+
+    public void testCustomBrowsingAndValidator() throws Exception {
         AodBrowser browser = new AodBrowser();
         String urlBase = "http://localhost:8080/Weatherline2/";
         HttpResponse fetchDocument = browser.startApp(urlBase + "Start");
@@ -113,38 +146,5 @@ import junit.framework.TestSuite;
         System.out.println(formName);
         System.out.println(urlBase + next);
         System.out.println(vxmlString);
-    }
-
-    public void testBrowserAndValidator() throws Exception {
-        AodBrowser browser = new AodBrowser();
-        
-        HttpResponse fetchDocument = browser.initApp("localhost", "8080", "Weatherline2", "");
-
-        VxmlValidator validator = new VxmlValidator(fetchDocument.getMessage());
-
-        validator = browser.start("919411234", "1234")
-        .xpElementContainsText(VXML_AUDIO, "To test the rest API, press 1.")
-        .xpElementAttrContainsText(VXML_AUDIO, SRC, "MainMenu.wav")
-        .xpVerifyElementCount(VXML_AUDIO, 1);
-
-        validator = browser.chooseMenuOption(validator, 1, "1", "1", "dtmf")
-        .xpElementContainsText(VXML_AUDIO, "Please enter your zip code.")
-        .xpElementAttrContainsText(VXML_AUDIO, SRC, "EnterZip.wav")
-        .xpVerifyElementCount(VXML_AUDIO, 2);
-
-        validator = browser.choosePromptCollect(validator, "12345", "12345", "dtmf")
-        .xpElementContainsText(VXML_AUDIO, "Your forecast")
-        .xpElementAttrContainsText(VXML_AUDIO, SRC, "Forecast2.wav")
-        .xpVerifyElementCount(VXML_AUDIO, 3);
-
-
-        validator = browser.getDefaultNext(validator)
-        .xpElementContainsText(VXML_AUDIO, "To test the rest API, press 1.")
-        .xpElementAttrContainsText(VXML_AUDIO, SRC, "MainMenu.wav")
-        .xpVerifyElementCount(VXML_AUDIO, 1);
-
-        validator = browser.error(validator)
-        .xpVerifyElementCount("vxml:form[@id='end']", 1);
-
     }
 }
