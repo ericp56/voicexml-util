@@ -32,20 +32,26 @@ import junit.framework.TestSuite;
     public void testBrowserAndValidator() throws Exception {
         AodBrowser browser = new AodBrowser();
         
+        //Fetch a new session of the AOD app
         HttpResponse fetchDocument = browser.initApp("localhost", "8080", "Weatherline2", "");
 
         VxmlValidator validator = new VxmlValidator(fetchDocument.getMessage());
 
+        //Start the session with an ANI and DNIS
         validator = browser.start("919411234", "1234")
+        //Validate that the initial page has certain text and elements
         .xpElementContainsText(VXML_AUDIO, "To test the rest API, press 1.")
         .xpElementAttrContainsText(VXML_AUDIO, SRC, "MainMenu.wav")
         .xpVerifyElementCount(VXML_AUDIO, 1);
 
+        //Choose option 1 from the initial page's menu options...
         validator = browser.chooseMenuOption(validator, 1, "1", "1", "dtmf")
+        //...and validate that the next page has certain text and elements
         .xpElementContainsText(VXML_AUDIO, "Please enter your zip code.")
         .xpElementAttrContainsText(VXML_AUDIO, SRC, "EnterZip.wav")
         .xpVerifyElementCount(VXML_AUDIO, 2);
 
+        // etc...
         validator = browser.choosePromptCollect(validator, "12345", "12345", "dtmf")
         .xpElementContainsText(VXML_AUDIO, "Your forecast")
         .xpElementAttrContainsText(VXML_AUDIO, SRC, "Forecast2.wav")
@@ -57,6 +63,7 @@ import junit.framework.TestSuite;
         .xpElementAttrContainsText(VXML_AUDIO, SRC, "MainMenu.wav")
         .xpVerifyElementCount(VXML_AUDIO, 1);
 
+        //Simulate a browser error, and verify that the app has gracefully ended
         validator = browser.error(validator)
         .xpVerifyElementCount("vxml:form[@id='end']", 1);
 
