@@ -16,7 +16,7 @@ For IVR programmers, testing IVR applications.
 
 ### AOD Browser Integration Test
 
-The following is an example of how to test your AOD app session without a real phone call.  This is good for running a suite of functionality tests.
+I'm setting up a continuous integration suite for monitoring an AAOD app repo, and building + testing it for every code push.  The following is an example of how to test your AOD app session without a real phone call.  
 
 ``` Java
 AodBrowser browser = new AodBrowser();
@@ -62,7 +62,7 @@ validator = browser.error(validator)
 
 ### Generate an IVR unit test in static VoiceXML
 
-Using this tool, you can generate VXML scripts that will validate functionality of an IVR.  You can set it up to work for inbound and outbound calls.
+I have a customer that doesn't have any tools like Hammer or Cyara.  Using this tool, I can generate vxml scripts that will validate functionality of an IVR.  I can set it up to work for inbound and outbound calls.  In the end, I just search the logs for "VxmlTestStatus" and review the results.
 
 Take a simple spreadsheet like this:
 
