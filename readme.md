@@ -2,6 +2,10 @@
 
 For IVR programmers, testing IVR applications.
 
+## Features
+
+- Simple VXML Script generator, for calling (or receiving calls) and testing IVR applications.
+- VXML Browser and Validator, so you can test a deployed IVR application
 
 ## Authors
 
@@ -148,18 +152,5 @@ And turn it into a static VoiceXML document with content like this:
 
 For support and feedback, email ericp@nextivr.com
 
-## Features
 
-- Simple VXML Script generator, for calling (or receiving calls) and testing IVR applications.
-- VXML Browser and Validator, so you can test a deployed IVR application
-
-## FAQ
-
-#### Question 1
-
-Answer 1
-
-#### Question 2
-
-Answer 2
 
